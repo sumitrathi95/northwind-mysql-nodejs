@@ -1,0 +1,73 @@
+<!--
+including header content which is common for all pages
+-->
+<%- include ../layouts/header.ejs %>
+<div class="text-center">
+	<a href="/">Home</a> |
+	<a href="/products/add">Add New Product</a> |
+	<a href="/products/list">All Product List</a>
+</div>
+<% if (messages.error) { %>
+	<p style="color:red"><%- messages.error %></p>
+<% } %>
+
+<% if (messages.success) { %>
+	<p style="color:green"><%- messages.success %></p>
+<% } %>
+
+<table width='100%' border=1>
+
+	<tr style='text-align:right; background-color:#CCC'>
+		<th style='text-align:center;'>ProductID</th>
+		<th style='text-align:center;'>ProductName</th>
+		<th style='text-align:center;'>SupplierID</th>
+		<th style='text-align:center;'>CategoryID</th>
+		<th style='text-align:center;'>QuantityPerUnit</th>
+		<th style='text-align:center;'>UnitPrice</th>
+		<th style='text-align:center;'>UnitsInStock</th>
+		<th style='text-align:center;'>UnitsOnOrder</th>
+		<th style='text-align:center;'>ReorderLevel</th>
+		<th style='text-align:center;'>Discontinued</th>
+		<th style='text-align:center;'>Action</th>
+	</tr>
+
+	<!--
+		Using FOREACH LOOP for the users array
+
+		myArray.forEach(function(el, index) {
+			// el - current element, i - index
+		});
+	-->
+	<% if (data) { %>
+	<% data.forEach(function(user){ %>
+		<tr>
+			<td style='text-align:center;'><%= user.ProductID %></td>
+			<td style='text-align:center;'><%= user.ProductName %></td>
+			<td style='text-align:center;'><%= user.SupplierID %></td>
+			<td style='text-align:center;'><%= user.CategoryID %></td>
+			<td style='text-align:center;'><%= user.QuantityPerUnit %></td>
+			<td style='text-align:center;'><%= user.UnitPrice %></td>
+			<td style='text-align:center;'><%= user.UnitsInStock %></td>
+			<td style='text-align:center;'><%= user.UnitsOnOrder %></td>
+			<td style='text-align:center;'><%= user.ReorderLevel %></td>
+			<td style='text-align:center;'><%= user.Discontinued %></td>
+
+			<td>
+				<div style="float:left">
+					<a href='/products/edit/<%= user.ProductID %>'>Edit</a> &nbsp;
+					<form method="post" action="/products/delete/<%= user.ProductID %>" style="float:right">
+						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+						<input type="hidden" name="_method" value="DELETE" />
+					</form>
+				</div>
+			</td>
+		</tr>
+	<% }) %>
+	<% } %>
+
+</table>
+
+<!--
+including footer content which is common for all pages
+-->
+<%- include ../layouts/footer.ejs %>

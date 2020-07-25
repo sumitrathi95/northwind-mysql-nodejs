@@ -1,0 +1,67 @@
+<!--
+including header content which is common for all pages
+-->
+<%- include ../layouts/header.ejs %>
+<div class="text-center">
+	<a href="/">Home</a> |
+	<a href="/customers/add">Add New Customer</a> |
+	<a href="/customers/list">All Customer List</a>
+</div>
+<% if (messages.error) { %>
+	<p style="color:red"><%- messages.error %></p>
+<% } %>
+
+<% if (messages.success) { %>
+	<p style="color:green"><%- messages.success %></p>
+<% } %>
+
+<table width='100%' border=1>
+
+	<tr style='text-align:right; background-color:#CCC'>
+		<th style='text-align:center;'>CustomerID</th>
+		<th style='text-align:center;'>CompanyName</th>
+		<th style='text-align:center;'>ContactName</th>
+		<th style='text-align:center;'>ContactTitle</th>
+		<th style='text-align:center;'>Address</th>
+		<th style='text-align:center;'>City</th>
+		<th style='text-align:center;'>Region</th>
+		<th style='text-align:center;'>PostalCode</th>
+		<th style='text-align:center;'>Country</th>
+		<th style='text-align:center;'>Phone</th>
+		<th style='text-align:center;'>Fax</th>
+		<th style='text-align:center;'>Action</th>
+	</tr>
+
+	<% if (data) { %>
+	<% data.forEach(function(user){ %>
+		<tr>
+			<td style='text-align:center;'><%= user.CustomerID %></td>
+			<td style='text-align:center;'><%= user.CompanyName %></td>
+			<td style='text-align:center;'><%= user.ContactName %></td>
+			<td style='text-align:center;'><%= user.ContactTitle %></td>
+			<td style='text-align:center;'><%= user.Address %></td>
+			<td style='text-align:center;'><%= user.City %></td>
+			<td style='text-align:center;'><%= user.Region %></td>
+			<td style='text-align:center;'><%= user.PostalCode %></td>
+			<td style='text-align:center;'><%= user.Country %></td>
+			<td style='text-align:center;'><%= user.Phone %></td>
+			<td style='text-align:center;'><%= user.Fax %></td>
+			<td>
+				<div style="float:left">
+					<a href='/customers/edit/<%= user.CustomerID %>'>Edit</a> &nbsp;
+					<form method="post" action="/customers/delete/<%= user.CustomerID %>" style="float:right">
+						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+						<input type="hidden" name="_method" value="DELETE" />
+					</form>
+				</div>
+			</td>
+		</tr>
+	<% }) %>
+	<% } %>
+
+</table>
+
+<!--
+including footer content which is common for all pages
+-->
+<%- include ../layouts/footer.ejs %>

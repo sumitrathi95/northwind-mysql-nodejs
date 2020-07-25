@@ -1,0 +1,85 @@
+<!--
+including header content which is common for all pages
+-->
+<%- include ../layouts/header.ejs %>
+<div class="text-center">
+	<a href="/">Home</a> |
+	<a href="/products/add">Add New Product</a> |
+	<a href="/products/list">All Product List</a>
+</div>
+<% if (messages.error) { %>
+	<p style="color:red"><%- messages.error %></p>
+<% } %>
+
+<% if (messages.success) { %>
+	<p style="color:green"><%- messages.success %></p>
+<% } %>
+<div style="width: 60%; margin: 0 auto;">
+<form action="/products/edit/<%= ProductID %>" method="post" name="form1">
+	<div class="panel panel-body login-form">
+	<div class="text-center">
+	<div class="icon-object border-slate-300 text-slate-300"><i class="icon-reading"></i></div>
+	<table width="55%" border="0" align=center>
+		<tr>
+			<td>ProductID</td>
+			<td><input type="number" class="form-control" name="ProductID" id="ProductID" value="<%= ProductID %>" /></td>
+		</tr>
+		<tr>
+			<td>ProductName</td>
+			<td><input type="text" class="form-control" name="ProductName" value="<%= ProductName %>" /></td>
+		</tr>
+		<tr>
+			<td><label for="SupplierID">SupplierID</label></td><td>
+  		<select id="SupplierID" name="SupplierID" class="form-control">
+    	<option value="1">1-Exotic Liquids</option> <option value="2">2-New Orleans Cajun Delights</option> <option value="3">3-Grandma Kelly's Homestead</option><option value="4">4-Tokyo Traders</option> <option value="5">5-Cooperativa de Quesos 'Las Cabras'</option> <option value="6">6-Mayumi's</option><option value="7">7-Pavlova Ltd.</option> <option value="8">8-Specialty Biscuits Ltd.</option><option value="9">9-PB KnÃ¤ckebrÃ¶d AB</option> <option value="10">10-Refrescos Americanas LTDA</option> <option value="11">11-Heli SÃ¼ÃŸwaren GmbH & Co. KG</option><option value="12">12-Plutzer LebensmittelgroÃŸmÃ¤rkte AG</option> <option value="13">13-Nord-Ost-Fisch Handelsgesellschaft mbH</option> <option value="14">14-Formaggi Fortini s.r.l.</option><option value="15">15-Norske Meierier</option> <option value="16">16-Bigfoot Breweries</option><option value="17">17-Svensk SjÃ¶fÃ¶da AB</option> <option value="18">18-Aux joyeux ecclÃ©siastiques</option> <option value="19">19-New England Seafood Cannery</option><option value="20">20-Leka Trading</option> <option value="21">21-Lyngbysild</option> <option value="22">22-Zaanse Snoepfabriek</option><option value="23">23-Karkki Oy</option> <option value="24">24-G'day Mate</option><option value="25">25-Ma Maison</option> <option value="26">26-Pasta Buttini s.r.l.</option> <option value="27">27-Escargots Nouveaux</option><option value="28">28-Gai pÃ¢turage</option><option value="29">29-ForÃªts d'Ã©rables</option>
+  	</select></td>
+		</tr>
+		<tr>
+			<td>
+			<label for="CategoryID">CategoryID</label></td><td>
+  		<select id="CategoryID" name="CategoryID" class="form-control">
+    	<option value="1">Beverages</option> <option value="2">Condiments</option> <option value="3">Confections</option>
+    	<option value="4">Dairy Products</option> <option value="5">Grains/Cereals</option> <option value="6">Meat/Poultry</option>
+    	<option value="7">Produce</option> <option value="8">Seafood</option>
+  	</select></td>
+		</tr>
+		<tr>
+			<td>QuantityPerUnit</td>
+			<td><input type="text" class="form-control" name="QuantityPerUnit" value="<%= QuantityPerUnit %>" /></td>
+		</tr>
+		<tr>
+			<td>UnitPrice</td>
+			<td><input type="number" class="form-control" name="UnitPrice" value="<%= UnitPrice %>" /></td>
+		</tr>
+		<tr>
+			<td>UnitsInStock</td>
+			<td><input type="number" class="form-control" name="UnitsInStock" value="<%= UnitsInStock %>" /></td>
+		</tr>
+		<tr>
+			<td>UnitsOnOrder</td>
+			<td><input type="number" class="form-control" name="UnitsOnOrder" value="<%= UnitsOnOrder %>" /></td>
+		</tr>
+		<tr>
+			<td>ReorderLevel</td>
+			<td><input type="number" class="form-control" name="ReorderLevel" value="<%= ReorderLevel %>" /></td>
+		</tr>
+		<tr>
+			<td>
+			<label for="Discontinued">Discontinued</label></td><td>
+  		<select id="Discontinued" class="form-control" name="Discontinued">
+    	<option value=0>0</option> <option value=1>1</option>
+  	</select></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" class="btn bg-blue btn-block" name="Submit" value="Add" /></td>
+		</tr>
+	</table>
+	</div></div>
+	<input type="hidden" name="_method" value="PUT" />
+</form>
+
+<!--
+including footer content which is common for all pages
+-->
+<%- include ../layouts/footer.ejs %>
