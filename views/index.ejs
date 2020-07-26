@@ -3,9 +3,14 @@ including header content which is common for all pages
 -->
 <%- include layouts/header.ejs %>
 <div class="text-center">
-  <a href="/">Home</a> |
-  <a href="/products">Prodcuts</a> |
-  <a href="/customers">Customer</a>
+  <div style="width: 30%; margin: 0 auto;"><br>
+  <form action="/products">
+    <input type="submit" value="Products Portal"  class="btn bg-blue btn-block"/>
+  </form>
+  <form action="/customers">
+    <input type="submit" value="Customers Portal"  class="btn bg-blue btn-block"/>
+  </form>
+  </div>
 </div>
 <!--
 including footer content which is common for all pages

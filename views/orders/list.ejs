@@ -1,0 +1,58 @@
+<!--
+including header content which is common for all pages
+-->
+<%- include ../layouts/header.ejs %>
+<div class="text-center">
+	<a href="/">Home</a> |
+	<a href="/customers">Customers Portal</a> |
+	<a href="/products">Prodcuts Portal</a>
+</div>
+<% if (messages.error) { %>
+	<p style="color:red"><%- messages.error %></p>
+<% } %>
+
+<% if (messages.success) { %>
+	<p style="color:green"><%- messages.success %></p>
+<% } %>
+
+<table width='100%' border=1>
+
+	<tr style='text-align:right; background-color:#CCC'>
+		<th style='text-align:center;'>OrderID</th>
+		<th style='text-align:center;'>CustomerID</th>
+		<th style='text-align:center;'>OrderDate</th>
+		<th style='text-align:center;'>ShippedDate</th>
+		<th style='text-align:center;'>ShipVia</th>
+		<th style='text-align:center;'>Freight</th>
+		<th style='text-align:center;'>ShipName</th>
+		<th style='text-align:center;'>ShipAddress</th>
+		<th style='text-align:center;'>ShipCity</th>
+		<th style='text-align:center;'>ShipPostalCode</th>
+		<th style='text-align:center;'>ShipCountry</th>
+	</tr>
+
+	<% if (data) { %>
+	<% data.forEach(function(user){ %>
+		<tr>
+			<td style='text-align:center;'><%= user.OrderID %></td>
+			<td style='text-align:center;'><%= user.CustomerID %></td>
+			<td style='text-align:center;'><%= user.OrderDate %></td>
+			<td style='text-align:center;'><%= user.ShippedDate %></td>
+			<td style='text-align:center;'><%= user.ShipVia %></td>
+			<td style='text-align:center;'><%= user.Freight %></td>
+			<td style='text-align:center;'><%= user.ShipName %></td>
+			<td style='text-align:center;'><%= user.ShipAddress %></td>
+			<td style='text-align:center;'><%= user.ShipCity %></td>
+			<td style='text-align:center;'><%= user.ShipPostalCode %></td>
+			<td style='text-align:center;'><%= user.ShipCountry %></td>
+
+		</tr>
+	<% }) %>
+	<% } %>
+
+</table>
+
+<!--
+including footer content which is common for all pages
+-->
+<%- include ../layouts/footer.ejs %>

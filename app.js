@@ -41,7 +41,7 @@ app.set('view engine', 'ejs')
 var index = require('./routes/index')
 var products = require('./routes/products')
 var customers = require('./routes/customers')
-
+var orders = require('./routes/orders')
 
 /**
  * Express Validator Middleware for Form Validation
@@ -111,7 +111,7 @@ app.use(flash())
 app.use('/', index)
 app.use('/products', products)
 app.use('/customers', customers)
-
+app.use('/orders', orders)
 app.listen(3000, function(){
 	console.log('Server running at port 3000: http://127.0.0.1:3000')
 })
