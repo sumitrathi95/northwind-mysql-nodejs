@@ -2,7 +2,7 @@ var express = require('express')
 var app = express()
 var path = require('path');
 
-// SHOW LIST OF USERS
+// SHOW LIST OF Products
 app.get('/list', function(req, res, next) {
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,ORD(`Discontinued`) as Discontinued FROM Products ORDER BY ProductID DESC',function(err, rows, fields) {
@@ -14,7 +14,7 @@ app.get('/list', function(req, res, next) {
 					data: ''
 				})
 			} else {
-				// render to views/user/list.ejs template file
+				// render to views/products/list.ejs template file
 				res.render('products/list', {
 					title: 'Product List',
 					data: rows
@@ -29,9 +29,9 @@ app.get('/', function(req, res, next) {
 			}
 		)
 
-// SHOW ADD USER FORM
+// SHOW ADD Products FORM
 app.get('/add', function(req, res, next){
-	// render to views/user/add.ejs
+	// render to views/products/add.ejs
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT ProductID FROM Products  order by ProductID desc LIMIT 1',function(err, rows, fields) {
 			var num = (JSON.parse(rows[0].ProductID));
@@ -60,7 +60,7 @@ app.get('/add', function(req, res, next){
 	})
 })
 
-// ADD NEW USER POST ACTION
+// ADD NEW Products POST ACTION
 app.post('/add', function(req, res, next){
 	req.assert('ProductID', 'ProductID is required').notEmpty()           //Validate name
 	req.assert('ProductName', 'ProductName is required').notEmpty()             //Validate age
@@ -87,7 +87,7 @@ app.post('/add', function(req, res, next){
 				if (err) {
 					req.flash('error', err)
 
-					// render to views/user/add.ejs
+					// render to views/products/add.ejs
 					res.render('products/add', {
 						title: 'Add New Product',
 						ProductID: products.ProductID,
@@ -104,7 +104,7 @@ app.post('/add', function(req, res, next){
 				} else {
 					req.flash('success', 'Data added successfully!')
 
-					// render to views/user/add.ejs
+					// render to views/products/add.ejs
 					res.render('products/add', {
 						title: 'Add New Product',
 						ProductID: '',
@@ -149,19 +149,19 @@ app.post('/add', function(req, res, next){
     }
 })
 
-// SHOW EDIT USER FORM
+// SHOW EDIT Prodcuts FORM
 app.get('/edit/(:ProductID)', function(req, res, next){
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM Products WHERE ProductID = ?', [req.params.ProductID], function(err, rows, fields) {
 			if(err) throw err
 
-			// if user not found
+			// if Product not found
 			if (rows.length <= 0) {
 				req.flash('error', 'Product not found with ProductID = ' + req.params.ProductID)
 				res.redirect('/products')
 			}
-			else { // if user found
-				// render to views/user/edit.ejs template file
+			else { // if Product found
+				// render to views/products/edit.ejs template file
 				res.render('products/edit', {
 					title: 'Edit Product',
 					//data: rows[0],
@@ -181,7 +181,7 @@ app.get('/edit/(:ProductID)', function(req, res, next){
 	})
 })
 
-// EDIT USER POST ACTION
+// EDIT Products POST ACTION
 app.put('/edit/(:ProductID)', function(req, res, next) {
 	req.assert('ProductID', 'ProductID is required').notEmpty()
 	req.assert('ProductName', 'ProductName is required').notEmpty()
@@ -190,15 +190,7 @@ app.put('/edit/(:ProductID)', function(req, res, next) {
 
     if( !errors ) {   //No errors were found.  Passed Validation!
 
-		/********************************************
-		 * Express-validator module
 
-		req.body.comment = 'a <span>comment</span>';
-		req.body.username = '   a user    ';
-
-		req.sanitize('comment').escape(); // returns 'a &lt;span&gt;comment&lt;/span&gt;'
-		req.sanitize('username').trim(); // returns 'a user'
-		********************************************/
 		var products = {
 			ProductID: req.sanitize('ProductID').escape().trim(),
 			ProductName: req.sanitize('ProductName').escape().trim(),
@@ -218,7 +210,7 @@ app.put('/edit/(:ProductID)', function(req, res, next) {
 				if (err) {
 					req.flash('error', err)
 
-					// render to views/user/add.ejs
+					// render to views/products/add.ejs
 					res.render('products/edit', {
 						title: 'Edit Products',
 						ProductID: req.params.ProductID,
@@ -235,7 +227,7 @@ app.put('/edit/(:ProductID)', function(req, res, next) {
 				} else {
 					req.flash('success', 'Data updated successfully!')
 
-					// render to views/user/add.ejs
+					// render to views/prodcuts/add.ejs
 					res.render('products/edit', {
 						title: 'Edit Product',
 						ProductID: req.params.ProductID,
@@ -253,7 +245,7 @@ app.put('/edit/(:ProductID)', function(req, res, next) {
 			})
 		})
 	}
-	else {   //Display errors to user
+	else {   //Display errors to products
 		var error_msg = ''
 		errors.forEach(function(error) {
 			error_msg += error.msg + '<br>'
@@ -280,7 +272,7 @@ app.put('/edit/(:ProductID)', function(req, res, next) {
     }
 })
 
-// DELETE USER
+// DELETE Product
 app.delete('/delete/(:ProductID)', function(req, res, next) {
 	var user = { ProductID: req.params.ProductID }
 
@@ -289,11 +281,11 @@ app.delete('/delete/(:ProductID)', function(req, res, next) {
 			//if(err) throw err
 			if (err) {
 				req.flash('error', err)
-				// redirect to users list page
+				// redirect to Prodcts list page
 				res.redirect('/products')
 			} else {
 				req.flash('success', 'Product deleted successfully! ProductID = ' + req.params.ProductID)
-				// redirect to users list page
+				// redirect to Products list page
 				res.redirect('/products')
 			}
 		})

@@ -2,7 +2,7 @@ var express = require('express')
 var app = express()
 var path = require('path');
 
-// SHOW LIST OF USERS
+// SHOW LIST OF Customers
 app.get('/list', function(req, res, next) {
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT CustomerID,CompanyName,ContactName,ContactTitle,Address,City,Region,PostalCode,Country,Phone,Fax FROM Customers ORDER BY CustomerID DESC',function(err, rows, fields) {
@@ -14,7 +14,7 @@ app.get('/list', function(req, res, next) {
 					data: ''
 				})
 			} else {
-				// render to views/user/list.ejs template file
+				// render to views/customers/list.ejs template file
 				res.render('customers/list', {
 					title: 'Customers List',
 					data: rows
@@ -29,9 +29,9 @@ app.get('/', function(req, res, next) {
 			}
 		)
 
-// SHOW ADD USER FORM
+// SHOW ADD CUSTOMER FORM
 app.get('/add', function(req, res, next){
-	// render to views/user/add.ejs
+	// render to views/customers/add.ejs
 			res.render('customers/add', {
 				title: 'Add New Customer',
 				CustomerID:'',
@@ -48,10 +48,10 @@ app.get('/add', function(req, res, next){
 				})
 			})
 
-// ADD NEW USER POST ACTION
+// ADD NEW CUSOTMER POST ACTION
 app.post('/add', function(req, res, next){
-	req.assert('CustomerID', 'CustomerID is required').notEmpty()           //Validate name
-	req.assert('ContactName', 'ContactName is required').notEmpty()             //Validate age
+	req.assert('CustomerID', 'CustomerID is required').notEmpty()           //Validate
+	req.assert('ContactName', 'ContactName is required').notEmpty()         //Validate
     var errors = req.validationErrors()
 
     if( !errors ) {   //No errors were found.  Passed Validation!
@@ -76,7 +76,7 @@ app.post('/add', function(req, res, next){
 				if (err) {
 					req.flash('error', err)
 
-					// render to views/user/add.ejs
+					// render to views/customers/add.ejs
 					res.render('customers/add', {
 						title: 'Add New Customer',
 						CustomerID:customers.CustomerID,
@@ -94,7 +94,7 @@ app.post('/add', function(req, res, next){
 				} else {
 					req.flash('success', 'Data added successfully!')
 
-					// render to views/user/add.ejs
+					// render to views/customers/add.ejs
 					res.render('customers/add', {
 						title: 'Add New Customer',
 						CustomerID:'',
@@ -120,10 +120,7 @@ app.post('/add', function(req, res, next){
 		})
 		req.flash('error', error_msg)
 
-		/**
-		 * Using req.body.name
-		 * because req.param('name') is deprecated
-		 */
+
         res.render('customers/add', {
             title: 'Add New Customer',
             CustomerID: req.body.CustomerID,
@@ -141,19 +138,19 @@ app.post('/add', function(req, res, next){
     }
 })
 
-// SHOW EDIT USER FORM
+// SHOW EDIT CUSTOMER FORM
 app.get('/edit/(:CustomerID)', function(req, res, next){
 	req.getConnection(function(error, conn) {
 		conn.query('SELECT * FROM Customers WHERE CustomerID = ?', [req.params.CustomerID], function(err, rows, fields) {
 			if(err) throw err
 
-			// if user not found
+			// if CUSTOMER not found
 			if (rows.length <= 0) {
 				req.flash('error', 'Customer not found with CustomerID = ' + req.params.CustomerID)
 				res.redirect('/customers')
 			}
-			else { // if user found
-				// render to views/user/edit.ejs template file
+			else { // if CUSTOMER found
+				// render to views/customers/edit.ejs template file
 				res.render('customers/edit', {
 					title: 'Edit Customer',
 					//data: rows[0],
@@ -174,7 +171,7 @@ app.get('/edit/(:CustomerID)', function(req, res, next){
 	})
 })
 
-// EDIT USER POST ACTION
+// EDIT CUSTOMER POST ACTION
 app.put('/edit/(:CustomerID)', function(req, res, next) {
 	req.assert('CustomerID', 'CustomerID is required').notEmpty()
 	req.assert('ContactName', 'ContactName is required').notEmpty()
@@ -183,15 +180,7 @@ app.put('/edit/(:CustomerID)', function(req, res, next) {
 
     if( !errors ) {   //No errors were found.  Passed Validation!
 
-		/********************************************
-		 * Express-validator module
 
-		req.body.comment = 'a <span>comment</span>';
-		req.body.username = '   a user    ';
-
-		req.sanitize('comment').escape(); // returns 'a &lt;span&gt;comment&lt;/span&gt;'
-		req.sanitize('username').trim(); // returns 'a user'
-		********************************************/
 		var customers = {
 			CustomerID: req.sanitize('CustomerID').escape().trim(),
 			CompanyName: req.sanitize('CompanyName').escape().trim(),
@@ -212,7 +201,7 @@ app.put('/edit/(:CustomerID)', function(req, res, next) {
 				if (err) {
 					req.flash('error', err)
 
-					// render to views/user/add.ejs
+					// render to views/customers/add.ejs
 					res.render('customers/edit', {
 						title: 'Edit Customer',
 						CustomerID: req.body.CustomerID,
@@ -230,7 +219,7 @@ app.put('/edit/(:CustomerID)', function(req, res, next) {
 				} else {
 					req.flash('success', 'Data updated successfully!')
 
-					// render to views/user/add.ejs
+					// render to views/customers/add.ejs
 					res.render('customers/edit', {
 						title: 'Edit Customer',
 						CustomerID: req.body.CustomerID,
@@ -256,10 +245,6 @@ app.put('/edit/(:CustomerID)', function(req, res, next) {
 		})
 		req.flash('error', error_msg)
 
-		/**
-		 * Using req.body.name
-		 * because req.param('name') is deprecated
-		 */
         res.render('customers/edit', {
             title: 'Edit Customer',
 						CustomerID: req.body.CustomerID,
@@ -277,7 +262,7 @@ app.put('/edit/(:CustomerID)', function(req, res, next) {
     }
 })
 
-// DELETE USER
+// DELETE CUSTOMER
 app.delete('/delete/(:CustomerID)', function(req, res, next) {
 	var user = { CustomerID: req.params.CustomerID }
 

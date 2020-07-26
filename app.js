@@ -36,7 +36,9 @@ app.set('view engine', 'ejs')
 
 /**
  * import routes/index.js
- * import routes/users.js
+ * import routes/products
+ * import routes/customers
+ * import routes/orders
  */
 var index = require('./routes/index')
 var products = require('./routes/products')
